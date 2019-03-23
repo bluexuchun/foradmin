@@ -1,7 +1,7 @@
 import React, { Component, Suspense } from 'react';
 import router from 'umi/router';
 import { connect } from 'dva';
-import { Input, Button, Table, message, Modal } from 'antd';
+import { Input, Button, Table, message, Modal,Icon } from 'antd';
 import PageLoading from '@/components/PageLoading';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
@@ -17,6 +17,7 @@ class MerchantList extends Component {
     this.state = {
       selectedRowKeys: [],
       loading: true,
+      visible:false,
       columns: [
         {
           title: '序号',
@@ -63,7 +64,7 @@ class MerchantList extends Component {
           align: 'center',
           render: (text, record) => {
             return(
-              <span>
+              <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
                 <a
                   href="javascript:void(0);"
                   onClick={() => this.editMerchant(record.id)}
@@ -71,6 +72,12 @@ class MerchantList extends Component {
                 >
                   编辑
                 </a>
+                <div
+                  onClick={() => this.chargeMerchant(record.id)}
+                  style={{ color: '#8856FD', marginRight: '40px',cursor:'pointer' }}
+                >
+                  充值
+                </div>
                 <a
                   href="javascript:void(0);"
                   onClick={() => this.deleteMerchant(record.id)}
@@ -78,7 +85,7 @@ class MerchantList extends Component {
                 >
                   删除
                 </a>
-            </span>
+            </div>
             )
           },
         },
@@ -128,13 +135,56 @@ class MerchantList extends Component {
     // this.props.history.push('arrange/' + JSON.stringify(item));
   }
 
+  /**
+   * 商家充值
+   * id为商家id
+   */
+  chargeMerchant = (id) => {
+    console.log(id)
+    this.setState({
+      merchantid:id,
+      visible:true
+    })
+  }
+
   addMerchant = () => {
     this.props.history.push('/merchant/merchant_edit/0');
-  };
+  }
 
   editMerchant = id => {
     this.props.history.push('/merchant/merchant_edit/' + id);
-  };
+  }
+
+  handleOk = (e) => {
+    let { chargement,merchantid } = this.state
+    ApiClient.post('/api.php?entry=sys&c=business&a=recharge&do=recharge',{
+      bid:merchantid,
+      price:chargement
+    }).then((res) => {
+      let result = res.data;
+      if (result.status == 1) {
+        message.success(result.message);
+        this.setState({
+          visible: false,
+        });
+      }else{
+        message.error(result.message);
+      }
+    })
+  }
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  }
+
+  onChangeCharge = (e) => {
+    this.setState({
+      chargement:e.target.value
+    })
+  }
 
   deleteMerchant = id => {
     let _this = this;
@@ -161,11 +211,26 @@ class MerchantList extends Component {
   render() {
     const { match, children, location } = this.props;
 
-    const { loading,columns,data } = this.state
+    const { loading,columns,data,visible,chargement } = this.state
 
     return (
       <GridContent>
         <Suspense fallback={<PageLoading />}>
+          {/* 充值弹窗 */}
+          <Modal
+            title="商家充值"
+            visible={visible}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+          >
+            <Input
+              placeholder="输入充值的金钱"
+              prefix={<Icon type="pay-circle" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              value={chargement}
+              onChange={this.onChangeCharge}
+              type="number"
+            />
+          </Modal>
           {/* 新增按钮 */}
           <div className={styles.btngroup}>
             <Button className={styles.addmerbtn} onClick={() => this.addMerchant()} style={{marginRight:'15px'}}>

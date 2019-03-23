@@ -108,6 +108,11 @@ export default [
         component: './Textbook/Edit',
         hideInMenu: true,
       },
+      {
+        path:'/record',
+        name:'充值记录',
+        component: './ChargeRecord/List'
+      },
       // {
       //   name: 'account',
       //   path: '/account',

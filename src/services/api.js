@@ -103,10 +103,13 @@ export async function updateFakeList(params) {
   });
 }
 
+/**
+ * 
+ * @param {登陆} params 
+ */
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
-    method: 'POST',
-    body: params,
+  return ApiClient.post('/api.php?entry=sys&c=business&a=login&do=login', {
+    ...params,
   });
 }
 

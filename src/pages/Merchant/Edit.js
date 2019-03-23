@@ -196,6 +196,49 @@ class MerchantEdit extends Component {
                     initialValue: this.state.mobile,
                   })(<Input placeholder="请输入手机号" />)}
                 </FormItem>
+                <FormItem {...formItemSmallLayout} label="商家余额：">
+                  {getFieldDecorator('balance', {
+                    rules: [{ required: false, message: '' }],
+                    initialValue: this.state.balance,
+                  })(<Input disabled />)}
+                </FormItem>
+              </Form>
+            </Col>
+          </Row>
+          <div className={styles.line} />
+          <Row gutter={12} style={{ padding: '20px 0px' }}>
+            <Col span={6} style={{ textAlign: 'center' }} />
+            <Col span={14}>
+              <div className={styles.tabTitle}>商家支付信息</div>
+              <Form onSubmit={this.submit}>
+                <FormItem {...formItemSmallLayout} label="appid：">
+                  {getFieldDecorator('appid', {
+                    rules: [{ required: true, message: '请输入appid!' }],
+                    initialValue: this.state.appid,
+                  })(<Input placeholder="请输入appid" />)}
+                </FormItem>
+
+                <FormItem {...formItemSmallLayout} label="appsecret：">
+                  {getFieldDecorator('appsecret', {
+                    rules: [{ required: true, message: '请输入appsecret!' }],
+                    initialValue: this.state.appsecret,
+                  })(<Input placeholder="请输入appsecret" />)}
+                </FormItem>
+
+                <FormItem {...formItemSmallLayout} label="商家号：">
+                  {getFieldDecorator('mchid', {
+                    rules: [{ required: true, message: '请输入商家号!' }],
+                    initialValue: this.state.mchid,
+                  })(<Input placeholder="请输入商家号" />)}
+                </FormItem>
+
+                <FormItem {...formItemSmallLayout} label="apikey：">
+                  {getFieldDecorator('signkey', {
+                    rules: [{ required: true, message: '请输入apikey!' }],
+                    initialValue: this.state.signkey,
+                  })(<Input placeholder="请输入apikey" />)}
+                </FormItem>
+
                 <FormItem {...tailFormItemLayout}>
                   <Button className={styles.addbtn} htmlType="submit">
                     提交
