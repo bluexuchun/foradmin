@@ -10,7 +10,9 @@ import styles from './List.less';
 import ApiClient from '@/utils/api';
 
 const confirm = Modal.confirm;
-@connect()
+@connect(({user}) => ({
+  currentUser:user.currentUser
+}))
 class ChargeRecordList extends Component {
   constructor(props) {
     super(props);
@@ -140,24 +142,32 @@ class ChargeRecordList extends Component {
      */
     if(type == 'charge'){
       ApiClient.post('/api.php?entry=sys&c=business&a=examine&do=adopt',{
-        bid:id
+        bid:id,
+        operator:_this.props.currentUser.username
       }).then((res) => {
         let result = res.data
         if(result.status == 1){
           message.success(result.message);
           _this.init()
+          _this.setState({
+            chargeVisible:false,
+          })
         }else{
           message.error(result.message);
         }
       })
     }else if(type == 'error'){
       ApiClient.post('/api.php?entry=sys&c=business&a=examine&do=refuse',{
-        bid:id
+        bid:id,
+        operator:_this.props.currentUser.username
       }).then((res) => {
         let result = res.data
         if(result.status == 1){
           message.success(result.message);
           _this.init()
+          _this.setState({
+            errorVisible:false,
+          })
         }else{
           message.error(result.message);
         }

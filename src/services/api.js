@@ -1,5 +1,6 @@
 import { stringify } from 'qs';
 import request from '@/utils/request';
+import ApiClient from '@/utils/api';
 
 export async function queryProjectNotice() {
   return request('/api/project/notice');
@@ -108,7 +109,7 @@ export async function updateFakeList(params) {
  * @param {登陆} params 
  */
 export async function fakeAccountLogin(params) {
-  return ApiClient.post('/api.php?entry=sys&c=business&a=login&do=login', {
+  return ApiClient.post('/api.php?entry=sys&c=admin&a=admin&do=login', {
     ...params,
   });
 }

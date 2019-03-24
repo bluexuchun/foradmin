@@ -22,56 +22,17 @@ class TeacherList extends Component {
           title: '序号',
           dataIndex: 'id',
           key: 'id',
-          width: 180,
         },
         {
           title: '姓名',
           dataIndex: 'name',
           key: 'name',
-          width: 200,
         },
         {
           title: '年龄',
           dataIndex: 'age',
           key: 'age',
-        },
-        {
-          title:'开放时间',
-          width: 250,
-          align: 'center',
-          render:(text,record) => {
-            let id = [record.id]
-            return (
-              <Button type="primary" onClick={() => this.arrange(id)}>添加开放时间</Button>
-            )
-          }
-        },
-        {
-          title: '操作',
-          key: 'action',
-          width: 250,
-          align: 'center',
-          render: (text, record) => {
-            return(
-              <span>
-                <a
-                  href="javascript:void(0);"
-                  onClick={() => this.editTeacher(record.id)}
-                  style={{ color: '#8856FD', marginRight: '40px' }}
-                >
-                  编辑
-                </a>
-                <a
-                  href="javascript:void(0);"
-                  onClick={() => this.deleteTeacher(record.id)}
-                  style={{ color: '#F67066' }}
-                >
-                  删除
-                </a>
-            </span>
-            )
-          },
-        },
+        }
       ],
     };
   }
@@ -175,18 +136,18 @@ class TeacherList extends Component {
           <IntroCommon />
 
           {/* 新增按钮 */}
-          <div className={styles.btngroup}>
+          {/* <div className={styles.btngroup}>
             <Button className={styles.addbtn} onClick={() => this.addTeacher()} style={{marginRight:'15px'}}>
               +新增老师
             </Button>
             <Button className={styles.addbtn} onClick={() => this.arrange(this.state.ids)}>
               批量开放时间
             </Button>
-          </div>
+          </div> */}
           
 
           {/* 表格 */}
-          <Table rowSelection={rowSelection} columns={this.state.columns} dataSource={this.state.data} loading={loading} />
+          <Table columns={this.state.columns} dataSource={this.state.data} loading={loading} />
         </Suspense>
       </GridContent>
     );

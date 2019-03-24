@@ -5,8 +5,8 @@ export async function query() {
 }
 
 export async function queryCurrent() {
-  if (localStorage.getItem('userInfo')) {
-    return { ...JSON.parse(localStorage.getItem('userInfo')) };
+  if (localStorage.getItem('userInfo_admin')) {
+    return { ...JSON.parse(localStorage.getItem('userInfo_admin')) };
   } else {
     location.href = '/user/login';
   }

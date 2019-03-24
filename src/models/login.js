@@ -15,6 +15,7 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
+      console.log(response)
       let status = localStorage.getItem('status');
       if (status == 'ok') {
         yield put({
@@ -40,7 +41,7 @@ export default {
       // Login successfully
       if (response.data.status === 1) {
         reloadAuthorized();
-        localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+        localStorage.setItem('userInfo_admin', JSON.stringify(response.data.data));
         localStorage.setItem('status', 'ok');
         window.location.href = '/';
         yield put(routerRedux.replace(redirect || '/'));
